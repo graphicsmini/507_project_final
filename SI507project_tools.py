@@ -91,6 +91,8 @@ for url in states_urls:
 
         # print(nps_dic)
 
+
+
 ##### Save the scraped data into CSV file.
 nps_data = pd.DataFrame.from_dict(nps_dic)
 nps_data.to_csv('nps.csv')
@@ -102,73 +104,112 @@ import sqlite3
 import csv
 from sqlalchemy import Column, ForeignKey, Integer, String, Text, Float, REAL
 
-sqlite_file = 'nps.sqlite'
+sqlite_file = 'nps.db'
 
 # Connecting to the database file
 conn = sqlite3.connect(sqlite_file)
 c = conn.cursor() # Object that allows us to use Python to act on the database
 
 # Often easier to start with the "simplest" table and go on from there
-
-c.execute('''CREATE TABLE State (Id INTEGER PRIMARY KEY AUTOINCREMENT, State TEXT)''')
+c.execute('''DROP TABLE IF EXISTS 'State';''')
+c.execute('''CREATE TABLE State (StateId INTEGER PRIMARY KEY AUTOINCREMENT, State TEXT)''')
 state_lst = []
+
 with open('nps.csv') as csvfile:
     readCSV = csv.reader(csvfile, delimiter=',')
     for row in readCSV:
         if not row[4] in state_lst:
             state_lst.append(row[4])
+        state_lst_itself = state_lst[1:]
 
-# print(state_lst)
-c.executemany('INSERT INTO State (State) VALUES (?)', state_lst)
-#
-# c.execute('''CREATE TABLE Park (Id INTEGER PRIMARY KEY AUTOINCREMENT, ParkName TEXT, ParkType TEXT, ParkLocation TEXT, State TEXT, Description TEXT, CONSTRAINT fk_State FOREIGN KEY (State) REFERENCES State(Id))''')
-# # Three quotations make it possible for this to become a multi-line string, which can make it easier to organize and read
-# each_lst = []
-# with open('nps.csv') as csvfile:
-#     readCSV = csv.reader(csvfile, delimiter=',')
-#     for row in readCSV:
-#         each_lst.append((row[0], row[2], row[1], row[3], row[4], row[5]))
-#
-# # print(each_lst)
-# c.executemany('INSERT INTO Park(ParkName, ParkType, ParkLocation, State, Description) VALUES (?,?,?,?,?)', each_lst)
+# print(state_lst_itself)
+c.executemany('INSERT INTO State (State) VALUES(?)', zip(state_lst_itself))
+
+c.execute('''DROP TABLE IF EXISTS 'Park';''')
+c.execute('''CREATE TABLE Park (ParkId INTEGER PRIMARY KEY AUTOINCREMENT, ParkName TEXT, ParkType TEXT, ParkLocation TEXT, StateId INTEGER, Description TEXT, CONSTRAINT fk_States FOREIGN KEY (StateId) REFERENCES State(StateId))''')
+# Three quotations make it possible for this to become a multi-line string, which can make it easier to organize and read
+each_lst = []
+with open('nps.csv') as csvfile:
+    readCSV = csv.reader(csvfile, delimiter=',')
+    readCSV.__next__()
+
+    for row in readCSV:
+        state_name = (row[4],)
+        # print(type(state_name))
+        c.execute("SELECT StateId FROM State WHERE State.State = ?" , state_name)
+        fetch_state_name = c.fetchone()
+
+        state_id = int(fetch_state_name[0])
+        # print(fetch_state_name)
+        each_lst.append((row[2], row[1], row[3], state_id, row[5]))
+
+# print(each_lst)
+c.executemany('INSERT INTO Park(ParkName, ParkType, ParkLocation, StateId, Description) VALUES (?,?,?,?,?)', each_lst)
+
+conn.commit()
+conn.close()
 
 
 
+######
+# Application configurations
+from flask import Flask, render_template, session, redirect, url_for, g
+app = Flask(__name__)
 
-# ######
-# # Application configurations
-# app = Flask(__name__)
-# app.debug = True
-# app.use_reloader = True
-# app.config['SECRET_KEY'] = 'hard to guess string for app security adgsdfsadfdflsdfsj'
-#
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./nps.db' # TODO: decide what your new database name will be -- that has to go here
-# app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-#
-#
-# # Set up Flask debug stuff
-# db = SQLAlchemy(app) # For database use
-# session = db.session # to make queries easy
-#
-#
-# ##### Set up Models #####
-#
-# class State(db.Model):
-#     __tablename__ = "states"
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(64))
-#
-#
-# class Park(db.Model):
-#     __tablename__ = "parks"
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(64))
-#     type = db.Column(db.String(64))
-#     location = db.Column(db.String(64))
-#     state_id = db.Column(db.Integer, db.ForeignKey("states.id"))
-#     description = type = db.Column(db.String(64))
-#
-#     def __repr__(self):
-#         return "{}({}), {}, {}".format(self.name, self.type, self.location, self.decription)
-#
+DATABASE = 'nps.db'
+
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect(DATABASE)
+    return db
+
+
+##### Set up Controllers (route functions) #####
+
+## Main route
+@app.route('/')
+def index():
+
+    cur = get_db().cursor()
+    cur.execute("select * from Park")
+    rows = cur.fetchall()
+
+    park_num = len(rows)
+
+    return render_template('index.html', park_num = park_num)
+
+@app.route('/all_states')
+def all_states():
+
+    cur = get_db().cursor()
+    cur.execute("select * from State")
+    rows = cur.fetchall()
+
+    state_list = []
+    for each in rows:
+        state_name = each[1]
+        state_list.append(state_name)
+
+    return render_template('all_states.html', state_name = state_name, state_list = state_list)
+
+@app.route('/state/<state>')
+def each_state(state):
+
+    cur = get_db().cursor()
+    cur.execute("select State, ParkName, ParkType, ParkLocation, Description from Park natural inner join State")
+    parks = cur.fetchall() # It will be rows of pakrs in the certain state. It could be one or multiple locations.
+
+    # print(parks)
+    park_dic = {}
+    park_dic["park_lst"]=[]
+
+    for each_park in parks:
+        if each_park[0] == state:
+            park_dic["park_lst"].append(each_park[1:])
+
+    return render_template('each_state.html', state_name=state, park_lst=park_dic["park_lst"])
+
+
+if __name__ == '__main__':
+   app.run()
