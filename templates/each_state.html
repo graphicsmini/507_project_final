@@ -1,0 +1,54 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+  <title>All states</title>
+    <style>
+
+    .title {
+      font-family: 'Roboto Mono', monospace;
+      color:blue;
+      line-height: 40px;
+       }
+
+    .list {
+      font-family: 'Roboto Mono', monospace;
+      color:black;
+    }
+
+    .list h1 {
+      font-size: 20px;
+      line-height:30px;
+    }
+
+    .list h2 {
+      font-size: 16px;
+      line-height: 20px;
+    }
+    </style>
+
+</head>
+<body>
+
+<div class="title">
+<h1>{{ state_name }}</h1>
+</div>
+<div class="list">
+<ul>
+
+{% for each in park_lst %}
+
+<li><h1>{{ each[0] }}</h1></li>
+<h2>{{ each[1] }}</h2>
+<h2>{{ each[2] }}</h2>
+<h2>{{ each[3] }}</h2><br>
+
+{% endfor %}
+</ul>
+</div>
+<div class="title">
+<h1><a href="{{ url_for('all_states')}}">Return to State list</a></h1>
+</div>
+
+</body>
+</html>

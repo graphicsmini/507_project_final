@@ -1,0 +1,30 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+  <title>All states</title>
+    <style>
+
+    .title {
+      font-family: 'Roboto Mono', monospace;
+      color:blue;
+      line-height: 40px;
+       }
+    </style>
+
+</head>
+<body>
+
+<div class="title">
+<ul>
+{% for each in state_list %}
+<a href = {{"state/{}".format(each)}}><li><h1>{{ each }}</h1></li></a>
+{% endfor %}
+</ul>
+
+
+<h1><a href="{{ url_for('index')}}">Return to home page</a></h1>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+  <title>All parks</title>
+    <style>
+
+    .title {
+      font-family: 'Roboto Mono', monospace;
+      color:black;
+      line-height: 40px;
+       }
+    </style>
+
+</head>
+<body>
+
+<div class="title">
+    <h1>Hello, I am going to show you a park list.<br>
+       So far, we have {% if park_num %}{{ park_num }}{% else %}0{% endif %} parks saved.</h1>
+    <h1><a href = all_states> Browse all states </a></h1>
+</div>
+
+</body>
+</html>
