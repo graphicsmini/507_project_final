@@ -8,25 +8,27 @@ Youngmin Kim
 
 ## Project Description
 
-My project will aggregate the National Park data in United States and allow a user to see the list of parks in each state by inputting the name of the state inside the URL. There will be a route for looking at the number of park in States. In another route, the list of parks in specific state will be shown according to which state the user click in the first page or type in the URL. If the user clicks one of the park name on the list, it would browse the detailed information about the park in the other route.
+My project will aggregate the National Park data in United States. It allows users to see the list of parks in each state page. There will be a route for looking at the number of park in States. In another route, the clickable names of states will be listed. When users click one state, they would see the list of parks with the information such as type, location and description.
 
 ## How to run
 
-1. First, you should ... (e.g. install all requirements with `pip install -r requirements.txt`)
-2. Second, you should ... (e.g. run `python programname.py runserver` or whatever else is appropriate)
-3. Anything else
+1. First, you should install all requirements with `pip3 install -r requirements.txt`
+2. Second, you should run `python3 SI507project_tools.py runserver`
+
 
 ## How to use
 
-1. A useful instruction goes here
-2. A useful second step here
-3. (Optional): Markdown syntax to include an screenshot/image: ![alt text](image.jpg)
+1. When you run the program, you will see the number of parks in the states. Click 'Browse all states'. (See sample_screenshots/sample_screenshot_1.png)
+2. You will see the list of states, click 'Connecticut'. (See sample_screenshots/sample_screenshot_2.png)
+3. You will see 5 parks informations which are 'Appalachian, New England, The Last Green Valley, Washington-Rochambeau, Weir Farm'. (See sample_screenshots/sample_screenshot_3.png)
+4. You can always go back to the list of states by clicking 'Return to State list' on the bottom.
+
 
 ## Routes in this application
-- `/home` -> this is the home page
-- `/form` -> this route has a form for user input
-- `/result` -> this route is where the form sends the result...
-- `/newuser/<username>` -> this route also takes input of a name and shows you a greeting
+- `/index` -> this is the home page
+- `/all_states` -> this route has a list of states
+- `/state/<state>` -> this route is showing parks' information in this 'state'
+
 
 ## How to run tests
 1. First... (e.g. access a certain directory if necessary)
@@ -35,11 +37,22 @@ My project will aggregate the National Park data in United States and allow a us
 NOTE: Need not have 3 steps, but should have as many as are appropriate!
 
 ## In this repository:
-- Directory Name
-  - File in directory
-  - File in directory
-- File name
-- File name
+- SI507project_tools.py
+- SI507project_tests.py
+- Templates/
+  - index.html
+  - all_states.html
+  - each_state.html
+- nps_sample.db
+- sample_screenshots/
+  - sample_screenshot_1.png
+  - sample_screenshot_2.png
+  - sample_screenshot_3.png
+- advanced_expiry_caching.py
+- requirements.txt
+- README.md
+- data_structure.png
+
 
 ---
 ## Code Requirements for Grading
@@ -50,15 +63,15 @@ Please check the requirements you have accomplished in your code as demonstrated
 Below is a list of the requirements listed in the rubric for you to copy and paste.  See rubric on Canvas for more details.
 
 ### General
-- [ ] Project is submitted as a Github repository
-- [ ] Project includes a working Flask application that runs locally on a computer
+- [x] Project is submitted as a Github repository
+- [x] Project includes a working Flask application that runs locally on a computer
 - [ ] Project includes at least 1 test suite file with reasonable tests in it.
-- [ ] Includes a `requirements.txt` file containing all required modules to run program
-- [ ] Includes a clear and readable README.md that follows this template
-- [ ] Includes a sample .sqlite/.db file
-- [ ] Includes a diagram of your database schema
-- [ ] Includes EVERY file needed in order to run the project
-- [ ] Includes screenshots and/or clear descriptions of what your project should look like when it is working
+- [x] Includes a `requirements.txt` file containing all required modules to run program
+- [x] Includes a clear and readable README.md that follows this template
+- [x] Includes a sample .sqlite/.db file
+- [x] Includes a diagram of your database schema
+- [x] Includes EVERY file needed in order to run the project
+- [x] Includes screenshots and/or clear descriptions of what your project should look like when it is working
 
 ### Flask Application
 - [ ] Includes at least 3 different routes
