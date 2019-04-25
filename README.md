@@ -32,7 +32,7 @@ My project will aggregate the National Park data in United States. It allows use
 
 ## How to run tests
 1. First, make sure that you installed all modules in 'requirements.txt'.
-2. Second, run SISI507project_tools.py to generate csv file and db file for testing. 
+2. Second, run SISI507project_tools.py to generate 'nps.csv' file and 'nps.db' file which are going to use in the test. 
 3. Lastly, run SISI507project_tests.py 
 
 
