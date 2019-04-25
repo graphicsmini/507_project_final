@@ -31,9 +31,10 @@ My project will aggregate the National Park data in United States. It allows use
 
 
 ## How to run tests
-1. First, make sure that you installed all modules in 'requirements.txt'.
-2. Second, run SISI507project_tools.py to generate 'nps.csv' file and 'nps.db' file which are going to use in the test. 
-3. Lastly, run SISI507project_tests.py 
+1. First, make sure that you installed all modules `pip3 install -r requirements.txt`.
+2. Second, run `python SISI507project_tools.py runserver` to generate **nps.csv** file and **nps.db** file which are going to use in the test. 
+3. Lastly, run `python SISI507project_tests.py` 
+4. You will see there are 4 tests.
 
 
 ## In this repository:
