@@ -7,7 +7,7 @@
 
     .title {
       font-family: 'Roboto Mono', monospace;
-      color:blue;
+      color: black;
       line-height: 40px;
        }
     </style>
@@ -16,6 +16,9 @@
 <body>
 
 <div class="title">
+
+<h1>Please click the state where you want to see the National Park Information in.</h1>
+
 <ul>
 {% for each in state_list %}
 <a href = {{"state/{}".format(each)}}><li><h1>{{ each }}</h1></li></a>
