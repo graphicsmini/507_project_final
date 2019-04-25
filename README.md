@@ -18,9 +18,9 @@ My project will aggregate the National Park data in United States. It allows use
 
 ## How to use
 
-1. When you run the program, you will see the number of parks in the states. Click 'Browse all states'. *(See sample_screenshots/sample_screenshot_1.png)*
-2. You will see the list of states, click 'Connecticut'. *(See sample_screenshots/sample_screenshot_2.png)*
-3. You will see 5 parks informations which are 'Appalachian, New England, The Last Green Valley, Washington-Rochambeau, Weir Farm'. *(See sample_screenshots/sample_screenshot_3.png)*
+1. When you run the program, you will see the number of parks in the states. Click **Browse all states**. *(See sample_screenshots/sample_screenshot_1.png)*
+2. You will see the list of states, click **Connecticut**. *(See sample_screenshots/sample_screenshot_2.png)*
+3. You will see 5 parks informations which are **Appalachian, New England, The Last Green Valley, Washington-Rochambeau, Weir Farm**. *(See sample_screenshots/sample_screenshot_3.png)*
 4. You can always go back to the list of states by clicking 'Return to State list' on the bottom.
 
 
